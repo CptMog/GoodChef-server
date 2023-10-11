@@ -71,6 +71,32 @@ categoryRouter.get('/getCategories',async(req,res)=>{
     
 })
 
+categoryRouter.post('/getACategorie',async(req,res)=>{
+    const {id} = req.body;
+    try {
+        const catagorie = await Category.findOne({
+            where:{
+                [Op.and]:{
+                    showed:'1',
+                    id:id
+                }
+            }
+        })
+        res.sendStatus = 200    
+        res.setHeader('Content-type','application/json');
+        res.json({
+            catagorie : catagorie,
+        })
+    } catch (error) {
+        res.sendStatus = 200    
+        res.setHeader('Content-type','application/json');
+        res.json({
+            catagorie : 0,
+        })
+    }
+    
+})
+
 categoryRouter.post('/createCategorie',urlencodedParser,async(req,res)=>{
     const {name,image} = req.body;
 

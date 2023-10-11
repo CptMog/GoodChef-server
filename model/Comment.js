@@ -31,7 +31,7 @@ const Comment = sequelize.define('Comment', {
             key: 'id'
           }
     },
-    decription:{
+    description:{
         type:DataTypes.TEXT,
         allowNull:false  
     },

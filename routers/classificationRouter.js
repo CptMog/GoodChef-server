@@ -49,6 +49,29 @@ classificationsRouter.post('/getClassificationsByCategory',async(req,res)=>{
     
 })
 
+classificationsRouter.post('/getClassificationsByRecepie',async(req,res)=>{
+    const {id_recepie} = req.body;
+    try {
+        const classifications = await Classification.findAll({
+            where:{
+                id_recepie: id_recepie
+            }
+        })
+        res.sendStatus = 200    
+        res.setHeader('Content-type','application/json');
+        res.json({
+            classifications : classifications,
+        })
+    } catch (error) {
+        res.sendStatus = 200    
+        res.setHeader('Content-type','application/json');
+        res.json({
+            classifications : 0,
+        })
+    }
+    
+})
+
 classificationsRouter.post('/createClassification',urlencodedParser,async(req,res)=>{
     const {id_recepie,id_category} = req.body;
 

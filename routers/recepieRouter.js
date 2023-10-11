@@ -73,16 +73,27 @@ recepiesRouter.post('/getARecepie',urlencodedParser,async (req,res) =>{
 })
 
 recepiesRouter.get('/getRecepieUne',urlencodedParser,async (req,res) =>{
-    const recepie = await Recepie.findOne({
-        where:{ 
-            une:'1'
-        }
-    })
-    res.sendStatus = 200    
-    res.setHeader('Content-type','application/json');
-    res.send({
-        recepie : recepie,
-       })
+
+    try{
+        const recepie = await Recepie.findOne({
+            where:{ 
+                une:'1',
+                moderation_state:'1'
+            }
+        })
+        res.sendStatus = 200    
+        res.setHeader('Content-type','application/json');
+        res.send({
+            recepie : recepie,
+           })
+    }catch{
+        res.sendStatus = 200    
+        res.setHeader('Content-type','application/json');
+        res.send({
+            recepie : 0,
+           })
+    }
+    
 })
 
 recepiesRouter.post('/getTrendings',urlencodedParser,async (req,res) =>{
@@ -93,6 +104,7 @@ recepiesRouter.post('/getTrendings',urlencodedParser,async (req,res) =>{
         recepies = await Recepie.findAll({
             where:{ 
                 trend:'1',
+                moderation_state:'1'
             },
             limit: limit
         })
@@ -124,6 +136,18 @@ recepiesRouter.post('/createRecepie',urlencodedParser,async (req,res) =>{
         steps,
         id_author
     } = req.body;
+
+    console.log(
+        title,
+        description,
+        ingredients,
+        time_prepare,
+        time_rest,     
+        time_cooking,
+        image,
+        steps,
+        id_author
+    )
 
     try {
         await Recepie.create({

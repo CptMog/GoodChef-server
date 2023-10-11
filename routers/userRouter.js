@@ -17,6 +17,21 @@ const store = new SequelizeStore({
 const userRouter = new Router();
 const urlencodedParser = bodyParser.urlencoded({ extended: false });
 
+userRouter.post("/getUserById",urlencodedParser,async(req,res)=>{ 
+    const {id} = req.body;
+    const user = await User.findOne({
+        where:{
+            id:id
+        }
+    })
+    res.setHeader('Content-Type','application/json')
+    if(user){
+        res.json({user:user})
+    }else{
+        res.json({user:0})
+    }
+})
+
 userRouter.post("/login",urlencodedParser,async (req,res)=>{
 
     const {email,password}  = req.body;
